@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🗽 NYC Trip · Mar 19–24, 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --ink: #111116;
+  --paper: #f4f1ec;
+  --cream: #eae6de;
+  --accent: #c8372d;
+  --gold: #b07c2e;
+  --steel: #38404e;
+  --muted: #888580;
+  --card: #ffffff;
+  --border: #d9d4ca;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); min-height: 100vh; }
+
+/* HERO */
+.hero {
+  background: var(--ink);
+  padding: 2.5rem 1.5rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: 'NYC';
+  position: absolute; right: -0.05em; top: -0.1em;
+  font-family: 'Playfair Display', serif; font-weight: 900;
+  font-size: min(22vw, 11rem);
+  color: rgba(255,255,255,0.045);
+  line-height: 1; pointer-events: none; letter-spacing: -0.04em;
+  user-select: none;
+}
+.hero-chip {
+  display: inline-block;
+  background: var(--accent); color: #fff;
+  font-family: 'DM Mono', monospace; font-size: 0.62rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 0.22rem 0.55rem; border-radius: 3px; margin-bottom: 0.9rem;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 7vw, 3.2rem);
+  color: #fff; line-height: 1.06; letter-spacing: -0.02em;
+  margin-bottom: 0.3rem;
+}
+.hero-sub { color: rgba(255,255,255,0.5); font-size: 0.8rem; font-weight: 400; }
+.hero-cards {
+  display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.25rem;
+}
+.hero-card {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.11);
+  border-radius: 8px; padding: 0.55rem 0.8rem;
+  font-size: 0.72rem; color: rgba(255,255,255,0.6);
+}
+.hero-card strong { display: block; color: #fff; font-size: 0.77rem; margin-bottom: 0.1rem; }
+
+/* TABS */
+.tab-bar {
+  display: flex; background: var(--ink);
+  border-bottom: 1px solid #2a2a2a;
+  position: sticky; top: 0; z-index: 50;
+}
+.tab-btn {
+  flex: 1; padding: 0.8rem 0.4rem;
+  background: none; border: none;
+  border-bottom: 3px solid transparent;
+  color: rgba(255,255,255,0.35);
+  font-family: 'DM Sans', sans-serif; font-size: 0.7rem;
+  font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  cursor: pointer; transition: all 0.18s; margin-bottom: -1px;
+}
+.tab-btn.active { color: #fff; border-bottom-color: var(--accent); }
+.tab-btn:hover:not(.active) { color: rgba(255,255,255,0.65); }
+
+/* PANELS */
+.panel { display: none; }
+.panel.active { display: block; animation: fadeIn 0.2s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+/* DAY SCROLL */
+.day-scroll {
+  display: flex; gap: 0.45rem; overflow-x: auto;
+  padding: 0.9rem 1.1rem; background: var(--cream);
+  border-bottom: 1px solid var(--border); scrollbar-width: none;
+}
+.day-scroll::-webkit-scrollbar { display: none; }
+.day-btn {
+  flex-shrink: 0; background: var(--card);
+  border: 1.5px solid var(--border); border-radius: 10px;
+  padding: 0.45rem 0.7rem;
+  font-family: 'DM Sans', sans-serif; font-size: 0.65rem; font-weight: 600;
+  color: var(--steel); cursor: pointer; transition: all 0.15s; text-align: center; min-width: 58px;
+}
+.day-btn .de { font-size: 1.05rem; display: block; margin-bottom: 0.1rem; }
+.day-btn.active {
+  background: var(--ink); border-color: var(--ink); color: #fff;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2); transform: translateY(-2px);
+}
+.day-btn:hover:not(.active) { border-color: var(--steel); }
+
+/* DAY HEADER */
+.day-header { margin: 1.1rem 1.1rem 0; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 14px rgba(0,0,0,0.09); }
+.dh-top { padding: 0.9rem 1.1rem; display: flex; align-items: center; gap: 0.7rem; }
+.dh-emoji { font-size: 1.6rem; }
+.dh-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: #fff; line-height: 1.1; }
+.dh-label { color: rgba(255,255,255,0.72); font-size: 0.74rem; font-weight: 500; margin-top: 0.1rem; }
+.dh-note { background: #f8f5f0; padding: 0.55rem 1.1rem; font-size: 0.7rem; color: var(--muted); border-top: 1px solid var(--border); font-style: italic; }
+.c-blue   { background: linear-gradient(135deg, #1a4480, #0e2a55); }
+.c-green  { background: linear-gradient(135deg, #1a5c3a, #0e3a23); }
+.c-lime   { background: linear-gradient(135deg, #2d5c18, #1a3a0e); }
+.c-forest { background: linear-gradient(135deg, #1a4828, #0e2e18); }
+.c-purple { background: linear-gradient(135deg, #3d1a6a, #26104a); }
+.c-orange { background: linear-gradient(135deg, #b84a10, #7a2e08); }
+
+/* TIMELINE */
+.timeline { padding: 0.85rem 1.1rem 3rem; display: flex; flex-direction: column; gap: 0.55rem; }
+.t-item {
+  background: var(--card); border: 1.5px solid var(--border);
+  border-radius: 10px; overflow: hidden; cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.t-item:hover { border-color: #b5b0a8; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.t-item.open { border-color: var(--steel); box-shadow: 0 3px 12px rgba(0,0,0,0.08); }
+.t-top { display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.7rem 0.85rem; }
+.t-time {
+  flex-shrink: 0; width: 52px; text-align: right;
+  font-family: 'DM Mono', monospace; font-size: 0.59rem;
+  color: var(--muted); padding-top: 2px; line-height: 1.35;
+}
+.t-line { flex-shrink: 0; width: 2px; background: var(--border); border-radius: 2px; align-self: stretch; min-height: 32px; }
+.t-body { flex: 1; min-width: 0; }
+.t-tag {
+  display: inline-block; font-size: 0.59rem; font-weight: 600;
+  letter-spacing: 0.04em; padding: 0.13rem 0.45rem;
+  border-radius: 20px; margin-bottom: 0.28rem; text-transform: capitalize;
+}
+.tag-food      { background: #fff0e0; color: #9a4a00; }
+.tag-transit   { background: #e0eeff; color: #0a4080; }
+.tag-landmark  { background: #ffe0e0; color: #8a1010; }
+.tag-explore   { background: #e0f5ee; color: #0a5a35; }
+.tag-hotel     { background: #ede0ff; color: #4a1a8a; }
+.tag-locked    { background: #fff8d0; color: #7a5200; }
+.t-title { font-weight: 600; font-size: 0.82rem; color: var(--ink); line-height: 1.3; }
+.t-detail {
+  margin: 0.55rem 0.85rem 0.7rem calc(52px + 0.6rem + 2px + 0.6rem);
+  font-size: 0.75rem; color: #555; line-height: 1.6;
+  border-top: 1px dashed var(--border); padding-top: 0.55rem;
+  display: none;
+}
+.t-item.open .t-detail { display: block; }
+.t-chevron { flex-shrink: 0; color: var(--muted); font-size: 0.65rem; padding-top: 4px; transition: transform 0.2s; }
+.t-item.open .t-chevron { transform: rotate(180deg); }
+
+/* PIZZA BADGE */
+.pizza-badge {
+  display: inline-block; background: var(--accent); color: #fff;
+  font-size: 0.58rem; font-weight: 700; letter-spacing: 0.05em;
+  padding: 0.1rem 0.4rem; border-radius: 3px; margin-left: 0.35rem;
+  vertical-align: middle; text-transform: uppercase;
+}
+
+/* PACKING */
+.pack-wrap { padding: 1rem 1.1rem 3rem; display: flex; flex-direction: column; gap: 0.75rem; }
+.pack-note { background: #fff3cd; border: 1px solid #f0c040; border-radius: 8px; padding: 0.65rem 0.9rem; font-size: 0.73rem; color: #7a5200; text-align: center; }
+.pack-card { background: var(--card); border: 1.5px solid var(--border); border-radius: 10px; overflow: hidden; }
+.pack-hd { background: var(--cream); padding: 0.55rem 0.9rem; font-weight: 600; font-size: 0.82rem; border-bottom: 1px solid var(--border); }
+.pack-list { list-style: none; padding: 0.6rem 0.9rem; display: flex; flex-direction: column; gap: 0.45rem; }
+.pack-list li { display: flex; gap: 0.5rem; font-size: 0.78rem; color: #444; align-items: flex-start; }
+.pack-list li::before { content: '✓'; color: #2a8a55; font-weight: 700; flex-shrink: 0; margin-top: 0.05rem; }
+
+/* TRANSIT */
+.transit-wrap { padding: 1rem 1.1rem 3rem; display: flex; flex-direction: column; gap: 0.7rem; }
+.transit-hero {
+  background: linear-gradient(135deg, #0e2a55, #1a4480);
+  border-radius: 12px; padding: 1rem 1.1rem; color: #fff;
+}
+.transit-hero h3 { font-family: 'Playfair Display', serif; font-size: 1rem; margin-bottom: 0.4rem; }
+.transit-hero p { font-size: 0.76rem; color: rgba(255,255,255,0.8); line-height: 1.55; }
+.transit-card { background: var(--card); border: 1.5px solid var(--border); border-radius: 10px; padding: 0.8rem 0.9rem; }
+.transit-card h4 { font-size: 0.8rem; font-weight: 600; color: var(--ink); margin-bottom: 0.3rem; }
+.transit-card p { font-size: 0.74rem; color: #555; line-height: 1.55; }
+.transit-route {
+  background: var(--cream); border-radius: 8px; padding: 0.65rem 0.9rem;
+  font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--steel);
+  border: 1px solid var(--border);
+}
+.transit-route strong { color: var(--ink); display: block; font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 600; margin-bottom: 0.2rem; }
+
+/* FOOTER */
+.footer {
+  background: var(--ink); color: rgba(255,255,255,0.35);
+  text-align: center; padding: 1.25rem; font-size: 0.68rem;
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-chip">Trip Planner · Shared by Julio</div>
+  <h1>New York City</h1>
+  <div class="hero-sub">March 19 – 24, 2026 &nbsp;·&nbsp; Manhattan / SoHo</div>
+  <div class="hero-cards">
+    <div class="hero-card"><strong>🏨 Hotel</strong>Courtyard by Marriott SoHo</div>
+    <div class="hero-card"><strong>✈️ Flight In</strong>PDX → DEN → LGA, Mar 19</div>
+    <div class="hero-card"><strong>🎭 Locked Plans</strong>Hadestown Fri · Dinner w/Jen Sat</div>
+    <div class="hero-card"><strong>🍕 Pizza</strong>Prince St Pizza + Lombardi's</div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('itinerary', this)">📅 Itinerary</button>
+  <button class="tab-btn" onclick="switchTab('packing', this)">🎒 Pack List</button>
+  <button class="tab-btn" onclick="switchTab('transit', this)">🚇 Transit</button>
+</div>
+
+<!-- ═══════ ITINERARY PANEL ═══════ -->
+<div class="panel active" id="panel-itinerary">
+
+  <div class="day-scroll" id="dayScroll">
+    <button class="day-btn active" onclick="switchDay(0, this)"><span class="de">✈️</span>Mar 19</button>
+    <button class="day-btn" onclick="switchDay(1, this)"><span class="de">🌉</span>Mar 20</button>
+    <button class="day-btn" onclick="switchDay(2, this)"><span class="de">🌿</span>Mar 21</button>
+    <button class="day-btn" onclick="switchDay(3, this)"><span class="de">🌳</span>Mar 22</button>
+    <button class="day-btn" onclick="switchDay(4, this)"><span class="de">🛍</span>Mar 23</button>
+    <button class="day-btn" onclick="switchDay(5, this)"><span class="de">👋</span>Mar 24</button>
+  </div>
+
+  <!-- ── Day 0 ── -->
+  <div class="day-view" id="day-0">
+    <div class="day-header">
+      <div class="dh-top c-blue">
+        <span class="dh-emoji">✈️</span>
+        <div><div class="dh-title">Thu, Mar 19 — Arrival Day</div><div class="dh-label">PDX → DEN → LGA</div></div>
+      </div>
+      <div class="dh-note">Short evening only — arrive ~6:25 PM. Just land, check in, and ease in with a legendary SoHo slice.</div>
+    </div>
+    <div class="timeline">
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">6:25 PM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-transit">🚇 transit</span><div class="t-title">Land at LGA (LaGuardia)</div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">Southwest flies into LGA. Best option: Q70 SBS bus from Terminal B → Jackson Heights/Roosevelt Ave → E/F/M/R subway → Spring St station. Total: ~55 min, costs just $3. Uber/Lyft from LGA is ~$40–60 but can be very slow in Thursday evening traffic.</div>
+      </div>
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">8:00 PM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-hotel">🏨 hotel</span><div class="t-title">Check In — Courtyard by Marriott SoHo</div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">Drop your bags, freshen up. The hotel's location is perfect — SoHo shopping, Little Italy, Chinatown, and the 9/11 Memorial are all walkable. You're right in the heart of downtown Manhattan.</div>
+      </div>
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">8:30 PM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-food">🍽 food</span><div class="t-title">🍕 Prince Street Pizza <span class="pizza-badge">Must Do</span></div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">27 Prince St — literally steps from your hotel. Famous for their thick "SoHo Squares." The pepperoni slice is legendary: crispy bottom, spongy dough, cup-and-char pepperoni cups. Expect a short line outside — totally worth it. Best first meal in NYC you can possibly have.</div>
+      </div>
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">9:30 PM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-explore">👣 explore</span><div class="t-title">Evening Stroll Through SoHo</div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">Walk Prince St, Spring St, and West Broadway. The cobblestone streets lit up at night with the cast-iron loft buildings are stunning. This is your orientation walk — get the lay of the land for the rest of the trip.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Day 1 ── -->
+  <div class="day-view" id="day-1" style="display:none">
+    <div class="day-header">
+      <div class="dh-top c-green">
+        <span class="dh-emoji">🌉</span>
+        <div><div class="dh-title">Fri, Mar 20 — Downtown + Hadestown</div><div class="dh-label">9/11 Memorial · Brooklyn Bridge · 🎭 Show with Jen</div></div>
+      </div>
+      <div class="dh-note">Free until ~3:30 PM — Dinner + Hadestown show with Jen at 4 PM.</div>
+    </div>
+    <div class="timeline">
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">8:30 AM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-food">🍽 food</span><div class="t-title">☕ Breakfast — Dominique Ansel Bakery</div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">189 Spring St — right in SoHo. World-famous French pastry chef. Get a croissant and coffee. Opens at 8 AM on weekdays — arrive early before lines form. Buttery, flaky, ridiculous pastries.</div>
+      </div>
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">9:30 AM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-landmark">📍 landmark</span><div class="t-title">🏛 9/11 Memorial & Museum</div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">~12-min walk from hotel. The reflecting pools (footprints of the Twin Towers) are free and open to walk around. Museum tickets ~$33 — buy online in advance to skip lines. Emotionally powerful and beautifully done. Budget 1.5–2 hours. One of the most important sites in the country.</div>
+      </div>
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">11:45 AM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-landmark">📍 landmark</span><div class="t-title">📸 One World Trade Center</div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">Right next to the Memorial. Tallest building in the Western Hemisphere. The exterior view and lobby plaza are free. Observatory tickets (~$42) are optional — views are stunning but save time for Brooklyn Bridge.</div>
+      </div>
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">12:30 PM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-food">🍽 food</span><div class="t-title">🥢 Lunch — Wah Fung No 1, Chinatown</div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">79 Chrystie St — 13-min walk from WTC. Legendary roast pork over rice for ~$5. Cash only. Lines move fast. One of the most famous cheap eats in NYC — locals and food writers have raved about this for years. Do not miss it.</div>
+      </div>
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">1:30 PM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-explore">👣 explore</span><div class="t-title">🌉 Walk the Brooklyn Bridge</div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">Take the A/C to Chambers St then walk to the bridge entrance (~10 min). The pedestrian walkway is 1.3 miles across — Manhattan skyline views from the bridge are incredible. Cross into DUMBO (Brooklyn) briefly for photos of the bridge framed between the buildings on Washington St.</div>
+      </div>
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">3:30 PM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-transit">🚇 transit</span><div class="t-title">Head Back & Freshen Up</div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">Take the A/C from High St-Brooklyn Bridge back toward the hotel. Get ready for the evening!</div>
+      </div>
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">⭐ 4 PM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-locked">⭐ locked</span><div class="t-title">🎭 Dinner + Hadestown with Jen</div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">Walter Kerr Theatre — 219 W 48th St, Midtown. Take the C/E uptown to 50th St. Hadestown is a Tony Award-winning musical reimagining of Orpheus & Eurydice. The music is extraordinary — bluesy, soulful, and haunting. Prepare to be genuinely moved.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Day 2 ── -->
+  <div class="day-view" id="day-2" style="display:none">
+    <div class="day-header">
+      <div class="dh-top c-lime">
+        <span class="dh-emoji">🌿</span>
+        <div><div class="dh-title">Sat, Mar 21 — High Line + SoHo</div><div class="dh-label">Chelsea · High Line · Galleries · Dinner with Jen</div></div>
+      </div>
+      <div class="dh-note">Free until 5 PM — Dinner with Jen at 5 PM.</div>
+    </div>
+    <div class="timeline">
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">9:00 AM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-food">🍽 food</span><div class="t-title">☕ Breakfast — Chelsea Market</div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">75 9th Ave — Take the A/C/E to 14th St / 8th Ave. Chelsea Market is a converted Nabisco factory full of independent food stalls. Get coffee + a bagel or breakfast sandwich from the vendors inside. The building itself is architecturally amazing.</div>
+      </div>
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">10:00 AM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-explore">👣 explore</span><div class="t-title">🌿 The High Line</div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">Enter at Gansevoort St (south end) and walk the 1.5-mile elevated park northward. Former freight rail line converted into an incredible park with city skyline views, public art, and curated plantings. Free to enter. Best in the morning before weekend crowds arrive.</div>
+      </div>
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">11:30 AM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-explore">👣 explore</span><div class="t-title">🏘 Meatpacking District + West Village</div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">Walk down from the High Line into the Meatpacking District — cobblestone streets, boutique shops, street art everywhere. Then wander into the West Village for some of the prettiest brownstone-lined blocks in the entire city.</div>
+      </div>
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">1:00 PM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-food">🍽 food</span><div class="t-title">🌮 Lunch — Los Tacos No. 1 (Chelsea)</div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">Inside Chelsea Market. Corn tortillas, birria, al pastor — these are widely considered the best tacos in Manhattan. Very quick, very cheap, very local. Get the adobada (al pastor) and a agua fresca.</div>
+      </div>
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">2:30 PM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-explore">👣 explore</span><div class="t-title">🎨 SoHo Galleries + The Earth Room</div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">Walk West Broadway between Houston and Spring St — about a dozen galleries. Then stop at The New York Earth Room at 141 Wooster St: a room on the second floor of a narrow building, completely filled with 280,000 lbs of dirt. It's free, bizarre, and strangely moving. Walter De Maria's permanent installation since 1977.</div>
+      </div>
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">⭐ 5 PM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-locked">⭐ locked</span><div class="t-title">🍽 Dinner with Jen</div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">Locked on your calendar. Great options near SoHo: Lure Fishbar (upscale seafood in SoHo), L'Artusi in West Village (excellent Italian), Bar Pitti (classic Italian, outdoor seating on 6th Ave), or Balthazar (legendary SoHo brasserie).</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Day 3 ── -->
+  <div class="day-view" id="day-3" style="display:none">
+    <div class="day-header">
+      <div class="dh-top c-forest">
+        <span class="dh-emoji">🌳</span>
+        <div><div class="dh-title">Sun, Mar 22 — Central Park + AMNH</div><div class="dh-label">Central Park · 🦕 Night at the Museum · Battery Park</div></div>
+      </div>
+      <div class="dh-note">Full free day — the big uptown push. Central Park + the actual Night at the Museum museum!</div>
+    </div>
+    <div class="timeline">
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">8:30 AM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-food">🍽 food</span><div class="t-title">☕ Breakfast — Russ & Daughters Café</div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">127 Orchard St — a legendary NYC institution since 1914. Famous lox, bagels, cream cheese, smoked fish. Get the Classic Board: Nova lox, cream cheese, bagel. Arrive before 10 AM on Sunday — it gets very crowded. This is the authentic NYC breakfast experience.</div>
+      </div>
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">10:00 AM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-transit">🚇 transit</span><div class="t-title">Subway Uptown to Central Park</div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">Take the 1 train from Canal St or Houston St uptown to 72nd St (Central Park West entrance). About 20 minutes. Exit toward the park.</div>
+      </div>
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">10:30 AM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-explore">👣 explore</span><div class="t-title">🌳 Central Park</div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">Enter at 72nd St (West). Hit Strawberry Fields (John Lennon memorial), Bethesda Fountain & Terrace (iconic fountain from movies), and The Lake. Walk northeast toward the Jacqueline Kennedy Onassis Reservoir. Consider renting a Citi Bike to cover more ground — dock right inside the park entrance.</div>
+      </div>
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">12:30 PM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-food">🍽 food</span><div class="t-title">🌭 Lunch — Gray's Papaya (72nd & Broadway)</div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">2090 Broadway at 72nd St — a true NYC institution. Two hot dogs + tropical papaya drink for about $6. Open 24 hours. NYC's most iconic cheap lunch. Locals have been eating here since 1973. Don't overthink it — just get the Recession Special.</div>
+      </div>
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">1:30 PM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-landmark">📍 landmark</span><div class="t-title">🦕 American Museum of Natural History</div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">Central Park West at 79th St — right on the park's west side. YES — this is the actual Night at the Museum museum! Tickets ~$28. Must-sees: the massive 94-ft blue whale in Milstein Hall of Ocean Life, the T. rex skeleton, the Hall of Meteorites (you can touch a 4-billion-year-old meteorite!), and the Rose Center for Earth and Space / Hayden Planetarium. Budget 2.5–3 hours minimum.</div>
+      </div>
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">4:30 PM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-landmark">📍 landmark</span><div class="t-title">🗽 Statue of Liberty View — Battery Park</div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">Take the 1 train back downtown to South Ferry. Walk to Battery Park for the iconic free view of the Statue of Liberty across the harbor. Golden hour light (around 6 PM in March) makes for beautiful photos. The view from the water's edge is dramatic and completely free.</div>
+      </div>
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">6:30 PM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-food">🍽 food</span><div class="t-title">🍝 Dinner — Pepe Rosso Social, SoHo</div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">149 Sullivan St — tiny, cash-only Italian spot near the hotel. One of the most beloved cheap Italian restaurants in all of NYC. Small tables, simple handwritten menu, massive flavor. Pasta dishes ~$12–16. This is exactly the kind of local hole-in-the-wall you came to NYC to find.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Day 4 ── -->
+  <div class="day-view" id="day-4" style="display:none">
+    <div class="day-header">
+      <div class="dh-top c-purple">
+        <span class="dh-emoji">🛍</span>
+        <div><div class="dh-title">Mon, Mar 23 — Times Square + Shopping</div><div class="dh-label">SoHo Shopping · Lombardi's 🍕 · Midtown · MoMA</div></div>
+      </div>
+      <div class="dh-note">Full free day — Midtown + SoHo shopping, best pizza in America, and a rooftop nightcap.</div>
+    </div>
+    <div class="timeline">
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">9:00 AM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-food">🍽 food</span><div class="t-title">☕ Breakfast — Maman Café, SoHo</div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">239 Centre St — French-Canadian café right in SoHo. Exceptional espresso and almond croissants. Warm, cozy vibe. Great spot to ease into your final full day.</div>
+      </div>
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">10:00 AM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-explore">👣 explore</span><div class="t-title">🛍 SoHo Shopping</div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">Spring St, Prince St, and Broadway have everything — Nike flagship, Aritzia, Supreme, independent boutiques, vintage stores, designer shops. The cast-iron architecture and cobblestone streets make even window shopping feel special. This is one of the world's best shopping neighborhoods.</div>
+      </div>
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">12:00 PM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-food">🍽 food</span><div class="t-title">🍕 Lunch — Lombardi's, America's First Pizzeria (1905) <span class="pizza-badge">Must Do</span></div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">32 Spring St, Little Italy — 10-min walk from SoHo. Opened in 1905, this is the original American pizzeria. Coal-fired brick oven, whole pies only (~$25+). Thin slightly charred crust, fresh whole-milk mozzarella, San Marzano tomatoes. No slices — just sit down and order a pie. Get the classic margherita. Between this and Prince Street Pizza on night 1, you'll have done NYC pizza from both ends of the spectrum.</div>
+      </div>
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">1:30 PM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-explore">👣 explore</span><div class="t-title">🏙 Times Square & Rockefeller Center</div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">Take the C/E uptown to 50th St. Times Square is wild, overwhelming, and a must-see even just once. Walk to Rockefeller Center (30 Rock) — free to walk the plaza. See the Today Show studio windows. Walk down iconic 5th Avenue past Saks and St. Patrick's Cathedral.</div>
+      </div>
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">3:30 PM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-landmark">📍 landmark</span><div class="t-title">🎨 MoMA — Museum of Modern Art</div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">11 W 53rd St — tickets ~$30. Home to Van Gogh's Starry Night, Monet's Water Lilies, Warhol's Campbell's Soup Cans. The building is stunning inside. Budget 2 hours. Monday is often less crowded than weekends.</div>
+      </div>
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">6:00 PM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-food">🍽 food</span><div class="t-title">🍜 Dinner — Spicy Village, Chinatown</div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">Unassuming spot on Forsyth St with a faded red awning. Hand-pulled wheat noodles (hui mei) from the Henan province of China. Incredibly cheap. Order the Big Tray Chicken — massive, spicy, addictive. The noodles are made fresh daily.</div>
+      </div>
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">8:00 PM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-explore">👣 explore</span><div class="t-title">🍸 Nightcap — Jimmy at the James Hotel</div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">15 Thompson St — rooftop bar at the James Hotel in SoHo. Opens at 5 PM. One of the best views of downtown Manhattan you'll find. Perfect last night in the city spot for a cocktail under the skyline.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Day 5 ── -->
+  <div class="day-view" id="day-5" style="display:none">
+    <div class="day-header">
+      <div class="dh-top c-orange">
+        <span class="dh-emoji">👋</span>
+        <div><div class="dh-title">Tue, Mar 24 — Last Morning</div><div class="dh-label">Checkout day — one final NYC morning</div></div>
+      </div>
+      <div class="dh-note">Standard checkout is 11 AM — request late checkout if needed, or store bags at bell desk.</div>
+    </div>
+    <div class="timeline">
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">8:00 AM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-food">🍽 food</span><div class="t-title">☕ Last Breakfast — Fanelli Café, SoHo</div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">94 Prince St — open since 1847. One of the oldest continuously operating cafés in NYC. Simple pub fare, excellent coffee, quintessential SoHo atmosphere. Low-key, unpretentious, perfect farewell meal for the trip.</div>
+      </div>
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">9:30 AM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-explore">👣 explore</span><div class="t-title">🚶 Final Walk: SoHo Cast Iron District</div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">Walk Greene and Wooster Streets for the best cast-iron architecture. These 5–7 story 1800s loft buildings are the largest surviving cast-iron district in the world. Beautiful morning light. A perfect, quiet farewell to the neighborhood you've called home for the week.</div>
+      </div>
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">11:00 AM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-hotel">🏨 hotel</span><div class="t-title">🧳 Checkout</div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">Standard checkout 11 AM. Ask the front desk to store luggage if you want more time in the neighborhood before heading to the airport.</div>
+      </div>
+      <div class="t-item" onclick="toggleItem(this)">
+        <div class="t-top"><div class="t-time">12:00 PM</div><div class="t-line"></div><div class="t-body"><span class="t-tag tag-transit">🚇 transit</span><div class="t-title">Head to LGA Airport</div></div><div class="t-chevron">▼</div></div>
+        <div class="t-detail">E/F/M/R from Spring St → Jackson Heights/Roosevelt Ave station → Q70 SBS bus to LGA. Total: ~55 min, $3. Or take an Uber/Lyft if you have a lot of bags. Give yourself at least 2 hours before your flight.</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end itinerary panel -->
+
+<!-- ═══════ PACKING PANEL ═══════ -->
+<div class="panel" id="panel-packing">
+  <div class="pack-wrap">
+    <div class="pack-note">🌦 NYC in late March: expect 35–55°F, wind, and possible rain. Layers are essential.</div>
+
+    <div class="pack-card">
+      <div class="pack-hd">👟 Clothes & Shoes</div>
+      <ul class="pack-list">
+        <li>Comfortable walking shoes — you'll do 8–12 miles/day on pavement</li>
+        <li>Layers: t-shirt + mid-layer + outer shell. March is unpredictable.</li>
+        <li>Light jacket + heavier layer or packable down vest</li>
+        <li>1 nicer outfit for Hadestown + dinner with Jen</li>
+        <li>Rain jacket or compact umbrella — always</li>
+        <li>Comfortable jeans or pants for walking all day</li>
+      </ul>
+    </div>
+
+    <div class="pack-card">
+      <div class="pack-hd">🎒 Gear</div>
+      <ul class="pack-list">
+        <li>Daypack or crossbody bag — leave the big suitcase at the hotel</li>
+        <li>Portable phone charger (power bank) — long days, lots of maps + photos</li>
+        <li>AirPods or headphones for subway rides</li>
+        <li>Reusable water bottle — NYC tap water is actually great</li>
+        <li>Sunglasses — March sun can be bright off glass buildings</li>
+      </ul>
+    </div>
+
+    <div class="pack-card">
+      <div class="pack-hd">📱 Apps to Download Before You Go</div>
+      <ul class="pack-list">
+        <li><strong>MTA MyMTA</strong> — real-time subway alerts and service changes</li>
+        <li><strong>Google Maps</strong> — download offline NYC map in advance</li>
+        <li><strong>Citymapper</strong> — best app for NYC transit routing</li>
+        <li><strong>Uber or Lyft</strong> — backup for late nights or when bags are heavy</li>
+        <li><strong>OpenTable / Resy</strong> — reservations if needed</li>
+      </ul>
+    </div>
+
+    <div class="pack-card">
+      <div class="pack-hd">💳 Money & Payments</div>
+      <ul class="pack-list">
+        <li>Contactless credit card for OMNY subway — just tap in, no card to buy</li>
+        <li>Some cash: Wah Fung, Pepe Rosso, and a few spots are cash-only</li>
+        <li>Budget ~$30–50/day for food eating local/casual</li>
+        <li>Museum costs: 9/11 Memorial ~$33, AMNH ~$28, MoMA ~$30</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ TRANSIT PANEL ═══════ -->
+<div class="panel" id="panel-transit">
+  <div class="transit-wrap">
+
+    <div class="transit-hero">
+      <h3>💳 Forget MetroCard — It's Gone</h3>
+      <p>As of January 2026, MetroCards are no longer sold. The subway now runs entirely on <strong>OMNY</strong> — just tap your contactless credit card, Apple Pay, or Google Pay at the turnstile. That's it. No card to buy, no app to download. Subway fare is <strong>$3/ride</strong>.</p>
+    </div>
+
+    <div class="transit-card">
+      <h4>🔑 Weekly Fare Cap — Free Rides After 12</h4>
+      <p>Use the <em>same card or device</em> every time and once you hit $35 in fares for the week, all remaining rides are free. Perfect for 5 days of heavy sightseeing. Just don't switch between your phone and physical card — the cap tracks per payment method.</p>
+    </div>
+
+    <div class="transit-route">
+      <strong>✈️ LGA Airport → Hotel (Arrival, Mar 19)</strong>
+      Q70 SBS bus (Terminal B) → Jackson Heights / Roosevelt Ave → E, F, M, or R train → Spring St station → walk to hotel. Total: ~55 min · $3 · Best option on a Thursday evening.
+    </div>
+
+    <div class="transit-route">
+      <strong>🚇 Key Lines from SoHo</strong>
+      C/E → Chelsea, High Line, Midtown, Times Square<br>
+      1/2/3 → Upper West Side, Central Park, 72nd St<br>
+      A/C → Brooklyn Bridge, DUMBO, Brooklyn<br>
+      R/W → Midtown (with transfer at Canal or 14th)
+    </div>
+
+    <div class="transit-card">
+      <h4>⏰ Avoid Rush Hour</h4>
+      <p>Weekday rush: 8–9:30 AM and 4:30–7 PM. Trains get very packed. You're on vacation — sleep in a bit and you'll have a much better experience.</p>
+    </div>
+
+    <div class="transit-card">
+      <h4>📱 Check for Weekend Service Changes</h4>
+      <p>The MTA does track maintenance on weekends. Always check the MTA app Saturday/Sunday morning — lines sometimes skip stations or run differently. Citymapper automatically routes around changes in real time.</p>
+    </div>
+
+    <div class="transit-card">
+      <h4>🚕 When to Just Take an Uber</h4>
+      <p>Late at night after shows, when you have shopping bags, or if the subway isn't running your route. From Midtown back to SoHo should be $15–25 depending on time. Avoid Uber during rain — surge pricing gets wild.</p>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">NYC Trip Planner · Shared by Julio · Mar 19–24, 2026</div>
+
+<script>
+function switchTab(tab, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + tab).classList.add('active');
+  btn.classList.add('active');
+}
+
+function switchDay(idx, btn) {
+  document.querySelectorAll('.day-view').forEach(d => d.style.display = 'none');
+  document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('day-' + idx).style.display = 'block';
+  btn.classList.add('active');
+}
+
+function toggleItem(el) {
+  const wasOpen = el.classList.contains('open');
+  // Close siblings
+  el.closest('.timeline').querySelectorAll('.t-item').forEach(i => i.classList.remove('open'));
+  if (!wasOpen) el.classList.add('open');
+}
+</script>
+</body>
+</html>
